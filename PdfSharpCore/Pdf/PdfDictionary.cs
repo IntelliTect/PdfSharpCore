@@ -235,8 +235,8 @@ namespace PdfSharpCore.Pdf
                 Debug.Assert(false, "Check when we come here.");
             }
 #endif
-            key.WriteObject(writer);
-            item.WriteObject(writer);
+            key.Write(writer);
+            item.Write(writer);
             writer.NewLine();
         }
 

@@ -199,7 +199,7 @@ namespace PdfSharpCore.Pdf.IO
             PdfStringEncoding encoding = (PdfStringEncoding)(value.Flags & PdfStringFlags.EncodingMask);
             string pdf = (value.Flags & PdfStringFlags.HexLiteral) == 0 ?
                 PdfEncoders.ToStringLiteral(value.EncryptionValue, encoding == PdfStringEncoding.Unicode, SecurityHandler) :
-                PdfEncoders.ToHexStringLiteral(value.EncryptionValue, encoding == PdfStringEncoding.Unicode, SecurityHandler);
+                PdfEncoders.ToHexStringLiteral(value.EncryptionValue, encoding == PdfStringEncoding.Unicode, SecurityHandler, value.PaddingLeft);
             WriteRaw(pdf);
 
             _lastCat = CharCat.Delimiter;
@@ -404,7 +404,7 @@ namespace PdfSharpCore.Pdf.IO
 
             if (omitStream)
             {
-                WriteRaw("  «...stream content omitted...»\n");  // useful for debugging only
+                WriteRaw("  ï¿½...stream content omitted...ï¿½\n");  // useful for debugging only
             }
             else
             {
