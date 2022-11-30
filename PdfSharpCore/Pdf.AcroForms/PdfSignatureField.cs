@@ -39,8 +39,6 @@ namespace PdfSharpCore.Pdf.AcroForms
     /// </summary>
     public sealed class PdfSignatureField : PdfAcroField
     {
-        private bool visible;
-
         public string Reason
         {
             get
@@ -69,10 +67,23 @@ namespace PdfSharpCore.Pdf.AcroForms
         {
             get
             {
-                return Elements.GetDictionary(Keys.V).Elements[Keys.Contents];
+                return Elements.GetDictionary(Keys.V)?.Elements[Keys.Contents];
             }
             set
             {
+                if (!Elements.ContainsKey(Keys.V))
+                {
+                    PdfDictionary sign = new PdfDictionary(_document);
+                    sign.Elements.Add(Keys.Type, new PdfName("/Sig"));
+                    sign.Elements.Add(Keys.Filter, new PdfName("/Adobe.PPKLite"));
+                    sign.Elements.Add(Keys.SubFilter, new PdfName("/adbe.pkcs7.detached"));
+                    sign.Elements.Add(Keys.M, new PdfDate(DateTime.Now));
+
+                    _document._irefTable.Add(sign);
+
+                    Elements.Add(Keys.V, sign);
+                }
+
                 Elements.GetDictionary(Keys.V).Elements.Add(Keys.Contents, value);
             }
         }
@@ -95,15 +106,15 @@ namespace PdfSharpCore.Pdf.AcroForms
         {
             get
             {
-                return (PdfRectangle)Elements[Keys.Rect];
+                return Elements.GetRectangle(Keys.Rect);
             }
             set
-            {                
-                Elements.Add(Keys.Rect, value);
-                this.visible = !(value.X1 + value.X2 + value.Y1 + value.Y2 == 0);   
-                
+            {
+                Elements[Keys.Rect] = value;
             }
         }
+
+        private bool IsVisible => Rectangle.X1 + Rectangle.X2 + Rectangle.Y1 + Rectangle.Y2 != 0;
 
 
         public ISignatureAppearanceHandler AppearanceHandler { get; internal set; }
@@ -144,7 +155,7 @@ namespace PdfSharpCore.Pdf.AcroForms
 
         internal override void PrepareForSave()
         {
-            if (!this.visible)
+            if (!this.IsVisible)
                 return;
 
             if (this.AppearanceHandler == null)
@@ -181,7 +192,7 @@ namespace PdfSharpCore.Pdf.AcroForms
 
             /// <summary>
             /// (Required; inheritable) The name of the signature handler to be used for
-            /// authenticating the field’s contents, such as Adobe.PPKLite, Entrust.PPKEF,
+            /// authenticating the fieldï¿½s contents, such as Adobe.PPKLite, Entrust.PPKEF,
             /// CICI.SignIt, or VeriSign.PPKVS.
             /// </summary>
             [KeyInfo(KeyType.Name | KeyType.Required)]
@@ -229,7 +240,7 @@ namespace PdfSharpCore.Pdf.AcroForms
             public const string Location = "/Location";
 
             /// <summary>
-            /// (Optional) The reason for the signing, such as (I agree…).
+            /// (Optional) The reason for the signing, such as (I agreeï¿½).
             /// </summary>
             [KeyInfo(KeyType.TextString | KeyType.Optional)]
             public const string Reason = "/Reason";

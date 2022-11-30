@@ -7,6 +7,7 @@ namespace PdfSharpCore.Pdf.Signatures
 {
     public class PdfSignatureOptions
     {
+        public string FieldName { get; set; }
         public ISignatureAppearanceHandler AppearanceHandler { get;  set; }
         public string ContactInfo { get; set; }              
         public string Location { get; set; }

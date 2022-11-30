@@ -12,8 +12,10 @@ namespace TestConsole
     {
         public static void Main(string[] args)
         {
-            Program.CreateAndSign();
-            Program.SignExisting();
+            //Program.CreateAndSign();
+           // Program.SignExisting();
+            Program.SignMine();
+            Program.SignMineNonDigital();
         }
 
         private static void CreateAndSign()
@@ -32,7 +34,7 @@ namespace TestConsole
                 Reason = "Test signatures",
                 Rectangle = new XRect(36.0, 700.0, 200.0, 50.0)
             };
-            PdfSignatureHandler pdfSignatureHandler = new PdfSignatureHandler( new DefaultSigner(Program.GetCertificate()), null, options);
+            PdfSignatureHandler pdfSignatureHandler = new PdfSignatureHandler( new DefaultSigner(Program.GetCertificate()), options);
             pdfSignatureHandler.AttachToDocument(pdfDocument);
             pdfDocument.Save(text);
         }
@@ -49,7 +51,42 @@ namespace TestConsole
                 AppearanceHandler = new Program.SignAppearenceHandler()
             };
             
-            PdfSignatureHandler pdfSignatureHandler = new PdfSignatureHandler(new DefaultSigner(Program.GetCertificate()), null, options);
+            PdfSignatureHandler pdfSignatureHandler = new PdfSignatureHandler(new DefaultSigner(Program.GetCertificate()), options);
+            pdfSignatureHandler.AttachToDocument(pdfDocument);
+            pdfDocument.Save(text);
+        }
+        private static void SignMine()
+        {
+            string text = string.Format("SignMine.pdf", new object[0]);
+            PdfDocument pdfDocument = PdfReader.Open(@"TestFiles\\Adobe Digital signing instructions-unsigned.pdf");
+            PdfSignatureOptions options = new PdfSignatureOptions
+            {
+                ContactInfo = "Contact Info",
+                Location = "Paris",
+                Reason = "Test signatures",
+                //Rectangle = new XRect(32, 348, 316, 50),
+                AppearanceHandler = new Program.SignAppearenceHandler(),
+                FieldName = "Signature1"
+            };
+
+            PdfSignatureHandler pdfSignatureHandler = new PdfSignatureHandler(new DefaultSigner(Program.GetCertificate()), options);
+            pdfSignatureHandler.AttachToDocument(pdfDocument);
+            pdfDocument.Save(text);
+        }
+        private static void SignMineNonDigital()
+        {
+            string text = string.Format("SignMineNonDigital.pdf", new object[0]);
+            PdfDocument pdfDocument = PdfReader.Open(@"TestFiles\\Adobe Digital signing instructions-unsigned.pdf");
+            PdfSignatureOptions options = new PdfSignatureOptions
+            {
+                ContactInfo = "Contact Info",
+                Location = "Paris",
+                Reason = "Test signatures",
+                AppearanceHandler = new Program.SignAppearenceHandler(),
+                FieldName = "Signature1"
+            };
+
+            PdfSignatureHandler pdfSignatureHandler = new PdfSignatureHandler(null, options);
             pdfSignatureHandler.AttachToDocument(pdfDocument);
             pdfDocument.Save(text);
         }
@@ -57,7 +94,7 @@ namespace TestConsole
         private static X509Certificate2 GetCertificate()
         {
             // add yours here
-            return new X509Certificate2("TestFiles\\myself.pfx", "1234", X509KeyStorageFlags.Exportable);
+            return new X509Certificate2("TestFiles\\myself.pfx", "password", X509KeyStorageFlags.Exportable);
         }
 
         private class SignAppearenceHandler : ISignatureAppearanceHandler
@@ -67,15 +104,19 @@ namespace TestConsole
             {
                 XColor empty = XColor.Empty;
                 string text = "Signed by Napoleon \nLocation: Paris \nDate: " + DateTime.Now.ToString();
-                XFont font = new XFont("Verdana", 7.0, XFontStyle.Regular);
+                XFont font = new XFont("Verdana", 8.0, XFontStyle.Regular);
                 XTextFormatter xTextFormatter = new XTextFormatter(gfx);
-                int num = this.Image.PixelWidth / this.Image.PixelHeight;
                 XPoint xPoint = new XPoint(0.0, 0.0);
                 bool flag = this.Image != null;
                 if (flag)
                 {
-                    gfx.DrawImage(this.Image, xPoint.X, xPoint.Y, rect.Width / 4.0, rect.Width / 4.0 / (double)num);
-                    xPoint = new XPoint(rect.Width / 4.0, 0.0);
+                    double ratio = 1;
+                    if (this.Image.PixelHeight > rect.Height)
+                    {
+                        ratio = rect.Height / this.Image.PixelHeight;
+                    }
+                    gfx.DrawImage(this.Image, xPoint.X, xPoint.Y, Image.PixelWidth * ratio, Image.PixelHeight * ratio);
+                    xPoint = new XPoint(Image.PixelWidth * ratio + 5, 0.0);
                 }
                 xTextFormatter.DrawString(text, font, new XSolidBrush(XColor.FromKnownColor(XKnownColor.Black)), new XRect(xPoint.X, xPoint.Y, rect.Width - xPoint.X, rect.Height), XStringFormats.TopLeft);
             }

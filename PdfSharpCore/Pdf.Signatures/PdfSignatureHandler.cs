@@ -1,4 +1,5 @@
-﻿using PdfSharpCore.Pdf;
+﻿using PdfSharpCore.Drawing;
+using PdfSharpCore.Pdf;
 using PdfSharpCore.Pdf.AcroForms;
 using PdfSharpCore.Pdf.Advanced;
 using PdfSharpCore.Pdf.Annotations;
@@ -6,9 +7,11 @@ using PdfSharpCore.Pdf.Signatures;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Security;
 using System.Security.Cryptography.Pkcs;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Xml.Linq;
 using static PdfSharpCore.Pdf.AcroForms.PdfAcroField;
 
 namespace PdfSharpCore.Pdf.Signatures
@@ -38,17 +41,16 @@ namespace PdfSharpCore.Pdf.Signatures
             this.Document.BeforeSave += AddSignatureComponents;
             this.Document.AfterSave += ComputeSignatureAndRange;
 
-            if (!maximumSignatureLength.HasValue)
+            if (signer != null && !maximumSignatureLength.HasValue)
             {
                 maximumSignatureLength = signer.GetSignedCms(new MemoryStream(new byte[] { 0})).Length;
                 SignatureSizeComputed(this, new IntEventArgs() { Value = maximumSignatureLength.Value });
             }
         }
 
-        public PdfSignatureHandler(ISigner signer, int? signatureMaximumLength, PdfSignatureOptions options)
+        public PdfSignatureHandler(ISigner signer, PdfSignatureOptions options, int? signatureMaximumLength = null)
         {            
             this.signer = signer;
-           
 
             this.maximumSignatureLength = signatureMaximumLength;
             this.Options = options;           
@@ -56,6 +58,8 @@ namespace PdfSharpCore.Pdf.Signatures
 
         private void ComputeSignatureAndRange(object sender, PdfDocumentEventArgs e)
         {
+            if (signer == null) return;
+
             var writer = e.Writer;
             writer.Stream.Position = rangeTracker.Start;
             var rangeArray = new PdfArray(new PdfInteger(0), 
@@ -94,7 +98,7 @@ namespace PdfSharpCore.Pdf.Signatures
                 new RangedStream.Range(contentsTraker.End, stream.Length - contentsTraker.End)
             });
             
-        }       
+        }
 
         private void AddSignatureComponents(object sender, EventArgs e)
         {
@@ -103,36 +107,62 @@ namespace PdfSharpCore.Pdf.Signatures
             if (catalog.AcroForm == null)
                 catalog.AcroForm = new PdfAcroForm(Document);
 
-            catalog.AcroForm.Elements.Add(PdfAcroForm.Keys.SigFlags, new PdfInteger(3));
+            if (signer != null)
+            {
+                if (catalog.AcroForm.Elements.ContainsKey(PdfAcroForm.Keys.SigFlags))
+                {
+                    catalog.AcroForm.Elements.Remove(PdfAcroForm.Keys.SigFlags);
+                }
+                catalog.AcroForm.Elements.Add(PdfAcroForm.Keys.SigFlags, new PdfInteger(3));
+            }
 
-            var signature = new PdfSignatureField(Document);
+            PdfSignatureField signature = Options.FieldName == null ? null : catalog.AcroForm.Fields[Options.FieldName] as PdfSignatureField;
+            bool isNew = signature == null;
 
-            var paddedContents = new PdfString("", PdfStringFlags.HexLiteral, maximumSignatureLength.Value);
-            var paddedRange = new PdfArray(Document, byteRangePaddingLength, new PdfInteger(0), new PdfInteger(0), new PdfInteger(0), new PdfInteger(0));
+            if (isNew)
+            {
+                signature = new PdfSignatureField(Document);
+                signature.Elements[Keys.T] = new PdfString(Options.FieldName ?? "Signature1");
+            }
 
-            signature.Contents = paddedContents;
-            signature.ByteRange = paddedRange;
-            signature.Reason = Options.Reason;
-            signature.Location = Options.Location;
-            signature.Rectangle = new PdfRectangle(Options.Rectangle);
+            if (isNew || (Options.Rectangle != XRect.Empty && Options.Rectangle != default))
+            {
+                signature.Rectangle = new PdfRectangle(Options.Rectangle);
+            }
+            if (signer != null)
+            {
+                var paddedContents = new PdfString("", PdfStringFlags.HexLiteral, maximumSignatureLength.Value);
+                var paddedRange = new PdfArray(Document, byteRangePaddingLength, new PdfInteger(0), new PdfInteger(0), new PdfInteger(0), new PdfInteger(0));
+
+                this.contentsTraker = new PositionTracker(paddedContents);
+                this.rangeTracker = new PositionTracker(paddedRange);
+
+                signature.Contents = paddedContents;
+                signature.ByteRange = paddedRange;
+                signature.Reason = Options.Reason;
+                signature.Location = Options.Location;
+            } 
+            else
+            {
+                signature.Elements.Remove(Keys.V);
+            }
             signature.AppearanceHandler = Options.AppearanceHandler ?? new DefaultAppearanceHandler()
             {                
                 Location = Options.Location,
                 Reason = Options.Reason,
-                Signer = signer.GetName()
+                Signer = signer?.GetName()
             };
-            signature.PrepareForSave();           
+            signature.PrepareForSave();
 
-            this.contentsTraker = new PositionTracker(paddedContents);
-            this.rangeTracker = new PositionTracker(paddedRange);
+            if (isNew)
+            {
+                if (!Document.Pages[0].Elements.ContainsKey(PdfPage.Keys.Annots))
+                    Document.Pages[0].Elements.Add(PdfPage.Keys.Annots, new PdfArray(Document));
 
-            if (!Document.Pages[0].Elements.ContainsKey(PdfPage.Keys.Annots))
-                Document.Pages[0].Elements.Add(PdfPage.Keys.Annots, new PdfArray(Document));
+                (Document.Pages[0].Elements[PdfPage.Keys.Annots] as PdfArray).Elements.Add(signature);
 
-            (Document.Pages[0].Elements[PdfPage.Keys.Annots] as PdfArray).Elements.Add(signature);
-                        
-            catalog.AcroForm.Fields.Elements.Add(signature);
-
+                catalog.AcroForm.Fields.Elements.Add(signature);
+            }
         }
     }
 }
