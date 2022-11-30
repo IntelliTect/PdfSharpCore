@@ -288,6 +288,25 @@ namespace PdfSharpCore.Pdf.Internal
         /// <summary>
         /// Converts a raw string into a raw hexadecimal string literal, possibly encrypted.
         /// </summary>
+        public static string ToHexStringLiteral(byte[] bytes, bool unicode, PdfStandardSecurityHandler securityHandler, int paddingLeft)
+        {
+            if ((bytes == null || bytes.Length == 0) && paddingLeft == 0)
+                return "<>";
+
+            if (bytes.Length < paddingLeft)
+            {
+                byte[] tmp = new byte[paddingLeft];
+                Array.Copy(bytes, tmp, bytes.Length);
+                bytes = tmp;
+            }
+
+            byte[] agTemp = FormatStringLiteral(bytes, unicode, true, true, securityHandler);
+            return RawEncoding.GetString(agTemp, 0, agTemp.Length);
+        }
+
+        /// <summary>
+        /// Converts a raw string into a raw hexadecimal string literal, possibly encrypted.
+        /// </summary>
         public static string ToHexStringLiteral(byte[] bytes, bool unicode, PdfStandardSecurityHandler securityHandler)
         {
             if (bytes == null || bytes.Length == 0)

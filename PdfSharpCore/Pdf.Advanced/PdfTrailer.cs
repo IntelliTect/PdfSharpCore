@@ -218,7 +218,7 @@ namespace PdfSharpCore.Pdf.Advanced
         internal class Keys : KeysBase  // Reference: TABLE 3.13  Entries in the file trailer dictionary / Page 97
         {
             /// <summary>
-            /// (Required; must not be an indirect reference) The total number of entries in the file’s 
+            /// (Required; must not be an indirect reference) The total number of entries in the fileï¿½s 
             /// cross-reference table, as defined by the combination of the original section and all
             /// update sections. Equivalently, this value is 1 greater than the highest object number
             /// used in the file.
@@ -244,13 +244,13 @@ namespace PdfSharpCore.Pdf.Advanced
             public const string Root = "/Root";
 
             /// <summary>
-            /// (Required if document is encrypted; PDF 1.1) The document’s encryption dictionary.
+            /// (Required if document is encrypted; PDF 1.1) The documentï¿½s encryption dictionary.
             /// </summary>
             [KeyInfo(KeyType.Dictionary | KeyType.Optional, typeof(PdfStandardSecurityHandler))]
             public const string Encrypt = "/Encrypt";
 
             /// <summary>
-            /// (Optional; must be an indirect reference) The document’s information dictionary.
+            /// (Optional; must be an indirect reference) The documentï¿½s information dictionary.
             /// </summary>
             [KeyInfo(KeyType.Dictionary | KeyType.Optional, typeof(PdfDocumentInformation))]
             public const string Info = "/Info";

@@ -13,9 +13,9 @@ namespace TestConsole
         public static void Main(string[] args)
         {
             //Program.CreateAndSign();
-           // Program.SignExisting();
-            Program.SignMine();
-            Program.SignMineNonDigital();
+            Program.SignNewField();
+            Program.SignExisting();
+            Program.SignExistingNonDigital();
         }
 
         private static void CreateAndSign()
@@ -38,9 +38,9 @@ namespace TestConsole
             pdfSignatureHandler.AttachToDocument(pdfDocument);
             pdfDocument.Save(text);
         }
-        private static void SignExisting()
+        private static void SignNewField()
         {
-            string text = string.Format("SignExisting.pdf", new object[0]);
+            string text = string.Format("SignNewField.pdf", new object[0]);
             PdfDocument pdfDocument = PdfReader.Open("TestFiles\\doc1.pdf");
             PdfSignatureOptions options = new PdfSignatureOptions
             {
@@ -55,9 +55,9 @@ namespace TestConsole
             pdfSignatureHandler.AttachToDocument(pdfDocument);
             pdfDocument.Save(text);
         }
-        private static void SignMine()
+        private static void SignExisting()
         {
-            string text = string.Format("SignMine.pdf", new object[0]);
+            string text = string.Format("SignExisting.pdf", new object[0]);
             PdfDocument pdfDocument = PdfReader.Open(@"TestFiles\\Adobe Digital signing instructions-unsigned.pdf");
             PdfSignatureOptions options = new PdfSignatureOptions
             {
@@ -73,9 +73,9 @@ namespace TestConsole
             pdfSignatureHandler.AttachToDocument(pdfDocument);
             pdfDocument.Save(text);
         }
-        private static void SignMineNonDigital()
+        private static void SignExistingNonDigital()
         {
-            string text = string.Format("SignMineNonDigital.pdf", new object[0]);
+            string text = string.Format("SignExistingNonDigital.pdf", new object[0]);
             PdfDocument pdfDocument = PdfReader.Open(@"TestFiles\\Adobe Digital signing instructions-unsigned.pdf");
             PdfSignatureOptions options = new PdfSignatureOptions
             {
