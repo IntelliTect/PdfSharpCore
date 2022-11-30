@@ -11,7 +11,7 @@ namespace PdfSharpCore.Pdf.Signatures
         public string Signer { get; set; }
        
 
-        public void DrawAppearance(XGraphics gfx, XRect rect)
+        public void RenderAppearance(XGraphics gfx, XRect rect)
         {
             var backColor = XColor.Empty;
             var defaultText = string.Format("Signed by: {0}\nLocation: {1}\nReason: {2}\nDate: {3}", Signer, Location, Reason, DateTime.Now);            

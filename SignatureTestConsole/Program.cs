@@ -5,6 +5,7 @@ using PdfSharpCore.Pdf.IO;
 using PdfSharpCore.Drawing.Layout;
 using PdfSharpCore.Pdf.Signatures;
 using System;
+using PdfSharpCore.Pdf.AcroForms;
 
 namespace TestConsole
 {
@@ -73,21 +74,12 @@ namespace TestConsole
             pdfSignatureHandler.AttachToDocument(pdfDocument);
             pdfDocument.Save(text);
         }
+
         private static void SignExistingNonDigital()
         {
             string text = string.Format("SignExistingNonDigital.pdf", new object[0]);
             PdfDocument pdfDocument = PdfReader.Open(@"TestFiles\\Adobe Digital signing instructions-unsigned.pdf");
-            PdfSignatureOptions options = new PdfSignatureOptions
-            {
-                ContactInfo = "Contact Info",
-                Location = "Paris",
-                Reason = "Test signatures",
-                AppearanceHandler = new Program.SignAppearenceHandler(),
-                FieldName = "Signature1"
-            };
-
-            PdfSignatureHandler pdfSignatureHandler = new PdfSignatureHandler(null, options);
-            pdfSignatureHandler.AttachToDocument(pdfDocument);
+            (pdfDocument.AcroForm.Fields["Signature1"] as PdfSignatureField).RenderAppearance(new SignAppearenceHandler());
             pdfDocument.Save(text);
         }
 
@@ -100,7 +92,7 @@ namespace TestConsole
         private class SignAppearenceHandler : ISignatureAppearanceHandler
         {
             private XImage Image = XImage.FromFile("TestFiles\\logo.jpg");
-            public void DrawAppearance(XGraphics gfx, XRect rect)
+            public void RenderAppearance(XGraphics gfx, XRect rect)
             {
                 XColor empty = XColor.Empty;
                 string text = "Signed by Napoleon \nLocation: Paris \nDate: " + DateTime.Now.ToString();

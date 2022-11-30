@@ -41,7 +41,7 @@ namespace PdfSharpCore.Pdf.Signatures
             this.Document.BeforeSave += AddSignatureComponents;
             this.Document.AfterSave += ComputeSignatureAndRange;
 
-            if (signer != null && !maximumSignatureLength.HasValue)
+            if (!maximumSignatureLength.HasValue)
             {
                 maximumSignatureLength = signer.GetSignedCms(new MemoryStream(new byte[] { 0})).Length;
                 SignatureSizeComputed(this, new IntEventArgs() { Value = maximumSignatureLength.Value });
@@ -51,15 +51,12 @@ namespace PdfSharpCore.Pdf.Signatures
         public PdfSignatureHandler(ISigner signer, PdfSignatureOptions options, int? signatureMaximumLength = null)
         {            
             this.signer = signer;
-
             this.maximumSignatureLength = signatureMaximumLength;
             this.Options = options;           
         }
 
         private void ComputeSignatureAndRange(object sender, PdfDocumentEventArgs e)
         {
-            if (signer == null) return;
-
             var writer = e.Writer;
             writer.Stream.Position = rangeTracker.Start;
             var rangeArray = new PdfArray(new PdfInteger(0), 
@@ -107,14 +104,11 @@ namespace PdfSharpCore.Pdf.Signatures
             if (catalog.AcroForm == null)
                 catalog.AcroForm = new PdfAcroForm(Document);
 
-            if (signer != null)
+            if (catalog.AcroForm.Elements.ContainsKey(PdfAcroForm.Keys.SigFlags))
             {
-                if (catalog.AcroForm.Elements.ContainsKey(PdfAcroForm.Keys.SigFlags))
-                {
-                    catalog.AcroForm.Elements.Remove(PdfAcroForm.Keys.SigFlags);
-                }
-                catalog.AcroForm.Elements.Add(PdfAcroForm.Keys.SigFlags, new PdfInteger(3));
+                catalog.AcroForm.Elements.Remove(PdfAcroForm.Keys.SigFlags);
             }
+            catalog.AcroForm.Elements.Add(PdfAcroForm.Keys.SigFlags, new PdfInteger(3));
 
             PdfSignatureField signature = Options.FieldName == null ? null : catalog.AcroForm.Fields[Options.FieldName] as PdfSignatureField;
             bool isNew = signature == null;
@@ -129,30 +123,27 @@ namespace PdfSharpCore.Pdf.Signatures
             {
                 signature.Rectangle = new PdfRectangle(Options.Rectangle);
             }
-            if (signer != null)
-            {
-                var paddedContents = new PdfString("", PdfStringFlags.HexLiteral, maximumSignatureLength.Value);
-                var paddedRange = new PdfArray(Document, byteRangePaddingLength, new PdfInteger(0), new PdfInteger(0), new PdfInteger(0), new PdfInteger(0));
 
-                this.contentsTraker = new PositionTracker(paddedContents);
-                this.rangeTracker = new PositionTracker(paddedRange);
+            var paddedContents = new PdfString("", PdfStringFlags.HexLiteral, maximumSignatureLength.Value);
+            var paddedRange = new PdfArray(Document, byteRangePaddingLength, new PdfInteger(0), new PdfInteger(0), new PdfInteger(0), new PdfInteger(0));
 
-                signature.Contents = paddedContents;
-                signature.ByteRange = paddedRange;
-                signature.Reason = Options.Reason;
-                signature.Location = Options.Location;
-            } 
-            else
+            this.contentsTraker = new PositionTracker(paddedContents);
+            this.rangeTracker = new PositionTracker(paddedRange);
+
+            signature.Contents = paddedContents;
+            signature.ByteRange = paddedRange;
+            signature.Reason = Options.Reason;
+            signature.Location = Options.Location;
+
+            if (signature.IsVisible)
             {
-                signature.Elements.Remove(Keys.V);
+                signature.RenderAppearance(Options.AppearanceHandler ?? new DefaultAppearanceHandler()
+                {
+                    Location = Options.Location,
+                    Reason = Options.Reason,
+                    Signer = signer.GetName()
+                });
             }
-            signature.AppearanceHandler = Options.AppearanceHandler ?? new DefaultAppearanceHandler()
-            {                
-                Location = Options.Location,
-                Reason = Options.Reason,
-                Signer = signer?.GetName()
-            };
-            signature.PrepareForSave();
 
             if (isNew)
             {

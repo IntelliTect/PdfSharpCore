@@ -114,10 +114,8 @@ namespace PdfSharpCore.Pdf.AcroForms
             }
         }
 
-        private bool IsVisible => Rectangle.X1 + Rectangle.X2 + Rectangle.Y1 + Rectangle.Y2 != 0;
+        public bool IsVisible => Rectangle.Size.Width > 0 && Rectangle.Size.Height > 0;
 
-
-        public ISignatureAppearanceHandler AppearanceHandler { get; internal set; }
 
         /// <summary>
         /// Initializes a new instance of PdfSignatureField.
@@ -152,22 +150,18 @@ namespace PdfSharpCore.Pdf.AcroForms
             : base(dict)
         { }
 
-
         internal override void PrepareForSave()
         {
-            if (!this.IsVisible)
-                return;
+            base.PrepareForSave();
+        }
 
-            if (this.AppearanceHandler == null)
-                throw new Exception("AppearanceHandler is null");
-
-
-
+        public void RenderAppearance(ISignatureAppearanceHandler appearanceHandler)
+        {
             PdfRectangle rect = Elements.GetRectangle(PdfAnnotation.Keys.Rect);
             XForm form = new XForm(this._document, rect.Size);
             XGraphics gfx = XGraphics.FromForm(form);
 
-            this.AppearanceHandler.DrawAppearance(gfx, rect.ToXRect());
+            appearanceHandler.RenderAppearance(gfx, rect.ToXRect());
 
             form.DrawingFinished();
 
