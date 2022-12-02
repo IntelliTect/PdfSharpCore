@@ -84,7 +84,7 @@ namespace PdfSharpCore.Pdf.AcroForms
                     Elements.Add(Keys.V, sign);
                 }
 
-                Elements.GetDictionary(Keys.V).Elements.Add(Keys.Contents, value);
+                Elements.GetDictionary(Keys.V).Elements[Keys.Contents] = value;
             }
         }
 
@@ -97,7 +97,7 @@ namespace PdfSharpCore.Pdf.AcroForms
             }
             set
             {
-                Elements.GetDictionary(Keys.V).Elements.Add(Keys.ByteRange, value);
+                Elements.GetDictionary(Keys.V).Elements[Keys.ByteRange] = value;
             }
         }
 
