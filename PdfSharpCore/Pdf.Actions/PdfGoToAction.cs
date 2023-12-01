@@ -71,7 +71,7 @@ namespace PdfSharpCore.Pdf.Actions
             //public const string S = "/S";
 
             /// <summary>
-            /// (Required) The destination to jump to (see Section 8.2.1, “Destinations”).
+            /// (Required) The destination to jump to (see Section 8.2.1, ï¿½Destinationsï¿½).
             /// </summary>
             [KeyInfo(KeyType.Name | KeyType.ByteString | KeyType.Array | KeyType.Required)]
             public const string D = "/D";
