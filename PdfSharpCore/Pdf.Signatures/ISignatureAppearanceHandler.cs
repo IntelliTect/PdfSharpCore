@@ -1,4 +1,4 @@
-﻿using PdfSharpCore.Drawing;
+using PdfSharpCore.Drawing;
 
 namespace PdfSharpCore.Pdf.Signatures
 {

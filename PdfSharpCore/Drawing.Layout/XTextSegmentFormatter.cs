@@ -1,4 +1,4 @@
-﻿using PdfSharpCore.Drawing.Layout.enums;
+using PdfSharpCore.Drawing.Layout.enums;
 using PdfSharpCore.Pdf.IO;
 using System;
 using System.Collections.Generic;

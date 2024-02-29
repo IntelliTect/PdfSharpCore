@@ -1,4 +1,4 @@
-﻿namespace PdfSharpCore.Drawing.Layout
+namespace PdfSharpCore.Drawing.Layout
 {
 	public class TextSegment
 	{

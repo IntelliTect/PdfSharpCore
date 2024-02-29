@@ -201,7 +201,7 @@ namespace MigraDocCore.Rendering
 #if false
           area = this.areaProvider.GetNextArea();
 #else
-          if (!ready)  //!!!newTHHO 19.01.2007: korrekt? oder GetNextArea immer ausführen???
+          if (!ready)  //!!!newTHHO 19.01.2007: korrekt? oder GetNextArea immer ausfï¿½hren???
           {
             area = this.areaProvider.GetNextArea();
             maxHeight = area.Height;

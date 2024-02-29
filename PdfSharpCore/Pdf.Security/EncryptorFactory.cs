@@ -1,4 +1,4 @@
-﻿using PdfSharpCore.Pdf.IO;
+using PdfSharpCore.Pdf.IO;
 
 namespace PdfSharpCore.Pdf.Security
 {

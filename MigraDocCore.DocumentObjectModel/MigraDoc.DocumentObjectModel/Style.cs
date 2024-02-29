@@ -292,7 +292,7 @@ namespace MigraDocCore.DocumentObjectModel
       if (this.baseStyle.Value == "")
         throw new ArgumentException("User defined Style defined without a BaseStyle");
 
-      //REVIEW KlPo4StLa Spezialbehandlung für den DefaultParagraphFont krüppelig(DefaultParagraphFont wird bei zugrif über styles["name"] nicht zurückgeliefert).
+      //REVIEW KlPo4StLa Spezialbehandlung fï¿½r den DefaultParagraphFont krï¿½ppelig(DefaultParagraphFont wird bei zugrif ï¿½ber styles["name"] nicht zurï¿½ckgeliefert).
       //Da hast Du Recht -> siehe IsReadOnly
       if (this.baseStyle.Value == DefaultParagraphFontName)
         return styles[0];
@@ -309,7 +309,7 @@ namespace MigraDocCore.DocumentObjectModel
     }
     [DV]
     internal NBool buildIn = NBool.NullValue;
-    // THHO: muss dass nicht builtIn heißen?!?!?!?
+    // THHO: muss dass nicht builtIn heiï¿½en?!?!?!?
 
     /// <summary>
     /// Gets or sets a comment associated with this object.

@@ -1,4 +1,4 @@
-﻿namespace PdfSharpCore.Test.Helpers
+namespace PdfSharpCore.Test.Helpers
 {
     public static class TestData
     {

@@ -1,4 +1,4 @@
-﻿namespace PdfSharpCore.Drawing.Layout
+namespace PdfSharpCore.Drawing.Layout
 {
 	internal class FormatterEnvironment
 	{

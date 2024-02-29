@@ -1,4 +1,4 @@
-﻿namespace PdfSharpCore.Pdf.Signatures
+namespace PdfSharpCore.Pdf.Signatures
 {
     internal class PositionTracker
     {

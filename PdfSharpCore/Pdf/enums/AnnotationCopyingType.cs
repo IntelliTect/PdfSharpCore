@@ -1,4 +1,4 @@
-﻿namespace PdfSharpCore.Pdf
+namespace PdfSharpCore.Pdf
 {
     /// <summary>
     /// Defines how annotations should be copied.

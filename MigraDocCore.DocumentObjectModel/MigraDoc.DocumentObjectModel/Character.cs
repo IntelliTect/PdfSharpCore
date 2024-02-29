@@ -40,7 +40,7 @@ namespace MigraDocCore.DocumentObjectModel
   /// <summary>
   /// Represents a special character in paragraph text.
   /// </summary>
-  // TODO: So ändern, dass symbolName und char in unterschiedlichen Feldern gespeichert wird
+  // TODO: So ï¿½ndern, dass symbolName und char in unterschiedlichen Feldern gespeichert wird
   public class Character : DocumentObject
   {
     // \space

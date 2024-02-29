@@ -81,7 +81,7 @@ namespace MigraDoc
     /// <summary>
     /// The copyright information. Also used as NuGet Copyright.
     /// </summary>
-    public const string Copyright = "Copyright © 2001-2012 empira Software GmbH."; // Also used as NuGet Copyright.
+    public const string Copyright = "Copyright ï¿½ 2001-2012 empira Software GmbH."; // Also used as NuGet Copyright.
 
     /// <summary>
     /// The trademark the product.

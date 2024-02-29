@@ -1,4 +1,4 @@
-﻿using PdfSharpCore.Pdf.Internal;
+using PdfSharpCore.Pdf.Internal;
 using System;
 using System.Security.Cryptography;
 

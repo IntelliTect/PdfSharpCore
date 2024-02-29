@@ -1,4 +1,4 @@
-﻿using PdfSharpCore.Drawing;
+using PdfSharpCore.Drawing;
 using PdfSharpCore.Drawing.Layout;
 using PdfSharpCore.Pdf;
 using PdfSharpCore.Test.Helpers;

@@ -1,4 +1,4 @@
-﻿using PdfSharpCore.Pdf.Advanced;
+using PdfSharpCore.Pdf.Advanced;
 using System;
 
 namespace PdfSharpCore.Pdf.Annotations

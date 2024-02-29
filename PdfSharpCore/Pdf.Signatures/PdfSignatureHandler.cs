@@ -1,4 +1,4 @@
-﻿using PdfSharpCore.Drawing;
+using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
 using PdfSharpCore.Pdf.AcroForms;
 using PdfSharpCore.Pdf.Advanced;

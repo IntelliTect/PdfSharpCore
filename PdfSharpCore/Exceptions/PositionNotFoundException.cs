@@ -1,4 +1,4 @@
-﻿using PdfSharpCore.Pdf;
+using PdfSharpCore.Pdf;
 
 namespace PdfSharpCore.Exceptions
 {

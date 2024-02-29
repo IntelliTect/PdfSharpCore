@@ -1,4 +1,4 @@
-﻿using PdfSharpCore.Drawing;
+using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
 using System.Security.Cryptography.X509Certificates;
 using PdfSharpCore.Pdf.IO;

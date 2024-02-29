@@ -1,4 +1,4 @@
-﻿namespace PdfSharpCore.Drawing.Layout.enums
+namespace PdfSharpCore.Drawing.Layout.enums
 {
 	internal enum BlockType
 	{

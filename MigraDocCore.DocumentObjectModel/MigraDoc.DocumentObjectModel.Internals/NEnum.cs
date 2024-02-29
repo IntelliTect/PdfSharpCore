@@ -72,8 +72,8 @@ namespace MigraDocCore.DocumentObjectModel.Internals
       get { return this.val != int.MinValue ? this.val : 0; }
       set
       {
-        //TODO: Klasse Character So ändern, dass symbolName und char in unterschiedlichen Feldern gespeichert wird
-        //Diese Spezialbehandlung entfällt dann.
+        //TODO: Klasse Character So ï¿½ndern, dass symbolName und char in unterschiedlichen Feldern gespeichert wird
+        //Diese Spezialbehandlung entfï¿½llt dann.
         if (this.type == typeof(SymbolName))
         {
           //          if (Enum.IsDefined(this.type, (uint)value))

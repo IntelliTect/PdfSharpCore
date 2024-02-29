@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Drawing.Layout;
 

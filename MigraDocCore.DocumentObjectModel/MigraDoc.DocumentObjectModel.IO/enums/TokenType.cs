@@ -50,17 +50,17 @@ namespace MigraDocCore.DocumentObjectModel.IO
     Identifier,
 
     /// <summary>
-    /// Both «true» and «\bold» are keywords, case sensitive.
+    /// Both ï¿½trueï¿½ and ï¿½\boldï¿½ are keywords, case sensitive.
     /// </summary>
     KeyWord,
 
     /// <summary>
-    /// Sample: «42»
+    /// Sample: ï¿½42ï¿½
     /// </summary>
     IntegerLiteral,
 
     /// <summary>
-    /// Samples: «42.0», «42.», «.42»,...
+    /// Samples: ï¿½42.0ï¿½, ï¿½42.ï¿½, ï¿½.42ï¿½,...
     /// </summary>
     RealLiteral,
 
@@ -70,12 +70,12 @@ namespace MigraDocCore.DocumentObjectModel.IO
     CharacterLiteral,
 
     /// <summary>
-    /// Both «"text"» and «@"text with ""quotes"""».
+    /// Both ï¿½"text"ï¿½ and ï¿½@"text with ""quotes"""ï¿½.
     /// </summary>
     StringLiteral,
 
     /// <summary>
-    /// Samples: «.», «{», «+=»,...
+    /// Samples: ï¿½.ï¿½, ï¿½{ï¿½, ï¿½+=ï¿½,...
     /// </summary>
     OperatorOrPunctuator,
 

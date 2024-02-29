@@ -188,11 +188,11 @@ namespace PdfSharpCore.Pdf.IO
         {
             long pos;
 
-            // Skip illegal blanks behind «stream».
+            // Skip illegal blanks behind ï¿½streamï¿½.
             while (_currChar == Chars.SP)
                 ScanNextChar(true);
 
-            // Skip new line behind «stream».
+            // Skip new line behind ï¿½streamï¿½.
             if (_currChar == Chars.CR)
             {
                 if (_nextChar == Chars.LF)
@@ -535,7 +535,7 @@ namespace PdfSharpCore.Pdf.IO
             }
 
             // Phase 2: deal with UTF-16BE if necessary.
-            // UTF-16BE Unicode strings start with U+FEFF ("þÿ"). There can be empty strings with UTF-16BE prefix.
+            // UTF-16BE Unicode strings start with U+FEFF ("ï¿½ï¿½"). There can be empty strings with UTF-16BE prefix.
             Phase2:
             if (_token.Length >= 2 && _token[0] == '\xFE' && _token[1] == '\xFF')
             {

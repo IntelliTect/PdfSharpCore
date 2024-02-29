@@ -62,7 +62,7 @@ namespace PdfSharpCore.Charting
     public virtual DocumentObject this[int index]
     {
       get {return this.elements[index] as DocumentObject;}
-      // TODO: überprüfen ob das erlaubt sein soll
+      // TODO: ï¿½berprï¿½fen ob das erlaubt sein soll
       set {this.elements[index] = value;}
     }
 

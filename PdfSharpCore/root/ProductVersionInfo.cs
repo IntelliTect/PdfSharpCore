@@ -90,7 +90,7 @@ namespace PdfSharpCore
         /// <summary>
         /// The copyright information.
         /// </summary>
-        public const string Copyright = "Copyright © 2005-2016 empira Software GmbH.";
+        public const string Copyright = "Copyright ï¿½ 2005-2016 empira Software GmbH.";
 
         /// <summary>
         /// The trademark the product.

@@ -62,8 +62,8 @@ namespace PdfSharpCore.Charting.Renderers
       //gfx.SetClip(plotAreaRect, XCombineMode.Intersect);
       gfx.IntersectClip(plotAreaRect);
 
-      //TODO null-Values müssen berücksichtigt werden.
-      //     Verbindungspunkte können fehlen, je nachdem wie null-Values behandelt werden sollen.
+      //TODO null-Values mï¿½ssen berï¿½cksichtigt werden.
+      //     Verbindungspunkte kï¿½nnen fehlen, je nachdem wie null-Values behandelt werden sollen.
       //     (NotPlotted, Interpolate etc.)
 
       // Draw lines and markers for each data series.

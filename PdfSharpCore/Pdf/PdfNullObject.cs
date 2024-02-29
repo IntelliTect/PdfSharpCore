@@ -62,7 +62,7 @@ namespace PdfSharpCore.Pdf
         }
 
         /// <summary>
-        /// Writes the keyword «null».
+        /// Writes the keyword ï¿½nullï¿½.
         /// </summary>
         internal override void WriteObject(PdfWriter writer)
         {

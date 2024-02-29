@@ -1,4 +1,4 @@
-﻿namespace PdfSharpCore.Pdf.Advanced
+namespace PdfSharpCore.Pdf.Advanced
 {
     /// <summary>
     /// Represent a file stream embedded in the PDF document

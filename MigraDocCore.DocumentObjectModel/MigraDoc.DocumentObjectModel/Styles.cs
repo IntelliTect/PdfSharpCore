@@ -243,55 +243,55 @@ namespace MigraDocCore.DocumentObjectModel
             style.ParagraphFormat.WidowControl = true;
             this.Add(style);
 
-            // Heading1 'Überschrift 1' (Paragraph Style)
+            // Heading1 'ï¿½berschrift 1' (Paragraph Style)
             style = new Style("Heading1", "Normal");
             style.buildIn.Value = true;
             style.ParagraphFormat.OutlineLevel = OutlineLevel.Level1;
             this.Add(style);
 
-            // Heading2 'Überschrift 2' (Paragraph Style)
+            // Heading2 'ï¿½berschrift 2' (Paragraph Style)
             style = new Style("Heading2", "Heading1");
             style.buildIn.Value = true;
             style.ParagraphFormat.OutlineLevel = OutlineLevel.Level2;
             this.Add(style);
 
-            // Heading3 'Überschrift 3' (Paragraph Style)
+            // Heading3 'ï¿½berschrift 3' (Paragraph Style)
             style = new Style("Heading3", "Heading2");
             style.buildIn.Value = true;
             style.ParagraphFormat.OutlineLevel = OutlineLevel.Level3;
             this.Add(style);
 
-            // Heading4 'Überschrift 4' (Paragraph Style)
+            // Heading4 'ï¿½berschrift 4' (Paragraph Style)
             style = new Style("Heading4", "Heading3");
             style.buildIn.Value = true;
             style.ParagraphFormat.OutlineLevel = OutlineLevel.Level4;
             this.Add(style);
 
-            // Heading5 'Überschrift 5' (Paragraph Style)
+            // Heading5 'ï¿½berschrift 5' (Paragraph Style)
             style = new Style("Heading5", "Heading4");
             style.buildIn.Value = true;
             style.ParagraphFormat.OutlineLevel = OutlineLevel.Level5;
             this.Add(style);
 
-            // Heading6 'Überschrift 6' (Paragraph Style)
+            // Heading6 'ï¿½berschrift 6' (Paragraph Style)
             style = new Style("Heading6", "Heading5");
             style.buildIn.Value = true;
             style.ParagraphFormat.OutlineLevel = OutlineLevel.Level6;
             this.Add(style);
 
-            // Heading7 'Überschrift 7' (Paragraph Style)
+            // Heading7 'ï¿½berschrift 7' (Paragraph Style)
             style = new Style("Heading7", "Heading6");
             style.buildIn.Value = true;
             style.ParagraphFormat.OutlineLevel = OutlineLevel.Level7;
             this.Add(style);
 
-            // Heading8 'Überschrift 8' (Paragraph Style)
+            // Heading8 'ï¿½berschrift 8' (Paragraph Style)
             style = new Style("Heading8", "Heading7");
             style.buildIn.Value = true;
             style.ParagraphFormat.OutlineLevel = OutlineLevel.Level8;
             this.Add(style);
 
-            // Heading9 'Überschrift 9' (Paragraph Style)
+            // Heading9 'ï¿½berschrift 9' (Paragraph Style)
             style = new Style("Heading9", "Heading8");
             style.buildIn.Value = true;
             style.ParagraphFormat.OutlineLevel = OutlineLevel.Level9;
@@ -302,7 +302,7 @@ namespace MigraDocCore.DocumentObjectModel
             style.buildIn.Value = true;
             this.Add(style);
 
-            // Footnote 'Fußnote' (Paragraph Style)
+            // Footnote 'Fuï¿½note' (Paragraph Style)
             style = new Style("Footnote", "Normal");
             style.buildIn.Value = true;
             this.Add(style);
@@ -312,7 +312,7 @@ namespace MigraDocCore.DocumentObjectModel
             style.buildIn.Value = true;
             this.Add(style);
 
-            // -33: Footer 'Fußzeile' (Paragraph Style)
+            // -33: Footer 'Fuï¿½zeile' (Paragraph Style)
             style = new Style("Footer", "Normal");
             style.buildIn.Value = true;
             this.Add(style);
@@ -322,7 +322,7 @@ namespace MigraDocCore.DocumentObjectModel
             style.buildIn.Value = true;
             this.Add(style);
 
-            // InvalidStyleName 'Ungültiger Formatvorlagenname' (Paragraph Style)
+            // InvalidStyleName 'Ungï¿½ltiger Formatvorlagenname' (Paragraph Style)
             style = new Style("InvalidStyleName", "Normal");
             style.buildIn.Value = true;
             style.Font.Bold = true;

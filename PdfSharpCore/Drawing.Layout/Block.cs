@@ -1,4 +1,4 @@
-﻿using PdfSharpCore.Drawing.Layout.enums;
+using PdfSharpCore.Drawing.Layout.enums;
 
 namespace PdfSharpCore.Drawing.Layout
 {

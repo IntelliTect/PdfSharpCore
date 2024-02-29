@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using FluentAssertions;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;

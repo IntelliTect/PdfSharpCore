@@ -83,7 +83,7 @@ namespace MigraDocCore.DocumentObjectModel.IO
     Percent,           // %
     Dollar,            // $
     Hash,              // #
-    Currency,          // ¤
+    Currency,          // ï¿½
     //Questionmark,    // ?
     Quotationmark,     // "
     At,                // @

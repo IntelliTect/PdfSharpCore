@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using PdfSharpCore.Pdf;
 using PdfSharpCore.Pdf.IO;
 using PdfSharpCore.Test.Helpers;

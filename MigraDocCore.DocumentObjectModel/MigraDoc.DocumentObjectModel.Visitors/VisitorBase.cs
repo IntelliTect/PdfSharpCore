@@ -262,7 +262,7 @@ namespace MigraDocCore.DocumentObjectModel.Visitors
         if (!tabStop.AddTab)
           tabStops.RemoveObjectAt(i);
       }
-      //Die TabStopCollection ist so wie sie jetzt ist vollständig.
+      //Die TabStopCollection ist so wie sie jetzt ist vollstï¿½ndig.
       //Sie darf daher nichts erben, d.h. :
       tabStops.fClearAll = true;
     }

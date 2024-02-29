@@ -218,7 +218,7 @@ namespace PdfSharpCore
         Post = 108,
 
         /// <summary>
-        /// 20 ×Identifies a paper sheet size of 20 inch times 15 inch or 508 mm times 381 mm.
+        /// 20 ï¿½Identifies a paper sheet size of 20 inch times 15 inch or 508 mm times 381 mm.
         /// </summary>
         Crown = 109,
 
@@ -277,10 +277,10 @@ namespace PdfSharpCore
         /// </summary>
         Size10x14 = 122,
 
-        //A 11 × 8.5 279 × 216
-        //B 17 × 11 432 × 279
-        //C 22 × 17 559 × 432
-        //D 34 × 22 864 × 559
-        //E 44 × 34 1118 × 864
+        //A 11 ï¿½ 8.5 279 ï¿½ 216
+        //B 17 ï¿½ 11 432 ï¿½ 279
+        //C 22 ï¿½ 17 559 ï¿½ 432
+        //D 34 ï¿½ 22 864 ï¿½ 559
+        //E 44 ï¿½ 34 1118 ï¿½ 864
     }
 }

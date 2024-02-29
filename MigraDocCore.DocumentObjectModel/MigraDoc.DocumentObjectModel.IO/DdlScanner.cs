@@ -41,10 +41,10 @@ using MigraDocCore.DocumentObjectModel.MigraDoc.DocumentObjectModel.Resources;
   ddl = <document> | <empty>
   
   table-element:
-    \table «attributes»opt { «columns-element» «rows-element» }
+    \table ï¿½attributesï¿½opt { ï¿½columns-elementï¿½ ï¿½rows-elementï¿½ }
 
   table-element:
-    \table «attributes»opt { «columns-element» «rows-element» }
+    \table ï¿½attributesï¿½opt { ï¿½columns-elementï¿½ ï¿½rows-elementï¿½ }
 */
 
 namespace MigraDocCore.DocumentObjectModel.IO
@@ -294,7 +294,7 @@ namespace MigraDocCore.DocumentObjectModel.IO
         //  sym = Symbol.Question;
         //  break;
 
-        case '¤':
+        case 'ï¿½':
           sym = Symbol.Currency; //??? used in DDL?
           break;
 
@@ -1314,7 +1314,7 @@ namespace MigraDocCore.DocumentObjectModel.IO
         //  sym = Symbol.Question;
         //  break;
 
-        case '¤':
+        case 'ï¿½':
           sym = Symbol.Currency; //??? used in DDL?
           break;
 
@@ -1409,7 +1409,7 @@ namespace MigraDocCore.DocumentObjectModel.IO
 
 
     /// <summary>
-    /// Scans verbatim strings like «@"String with ""quoted"" text"».
+    /// Scans verbatim strings like ï¿½@"String with ""quoted"" text"ï¿½.
     /// </summary>
     protected string ScanVerbatimStringLiteral()
     {
@@ -1434,7 +1434,7 @@ namespace MigraDocCore.DocumentObjectModel.IO
     }
 
     /// <summary>
-    /// Scans regular string literals like «"String with \"escaped\" text"».
+    /// Scans regular string literals like ï¿½"String with \"escaped\" text"ï¿½.
     /// </summary>
     protected string ScanStringLiteral()
     {

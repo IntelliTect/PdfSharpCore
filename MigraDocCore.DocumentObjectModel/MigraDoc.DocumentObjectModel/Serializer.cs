@@ -284,7 +284,7 @@ namespace MigraDocCore.DocumentObjectModel
         {
           // does not work
           // if (IsBlankRequired(this.lastChar, _text[0]))
-          //   _text = "·" + _text;
+          //   _text = "ï¿½" + _text;
         }
         else
         {
@@ -300,7 +300,7 @@ namespace MigraDocCore.DocumentObjectModel
         if (this.linePos > this.lineBreakBeyond)
         {
           fLineBreak = true;
-          //this.textWriter.Write("//¶");  // for debugging only
+          //this.textWriter.Write("//ï¿½");  // for debugging only
         }
         else
           this.lastChar = text[len - 1];

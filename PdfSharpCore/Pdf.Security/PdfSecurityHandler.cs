@@ -109,18 +109,18 @@ namespace PdfSharpCore.Pdf.Security
             /// <summary>
             /// (Optional) The method used, if any, by the consumer application to decrypt data.
             /// The following values are supported:
-            /// • None The application does not decrypt data but directs the input
+            /// ï¿½ None The application does not decrypt data but directs the input
             ///   stream to the security handler for decryption. (See implementation
             ///   note 30 in Appendix H.)
-            /// • V2 The application asks the security handler for the encryption key
+            /// ï¿½ V2 The application asks the security handler for the encryption key
             ///   and implicitly decrypts data with Algorithm 3.1, using the RC4 algorithm.
-            /// • AESV2(PDF 1.6) The application asks the security handler for the
+            /// ï¿½ AESV2(PDF 1.6) The application asks the security handler for the
             ///   encryption key and implicitly decrypts data with Algorithm 3.1, using
             ///   the AES-128 algorithm in Cipher Block Chaining(CBC) with padding
             ///   mode with a 16-byte block size and an initialization vector that is
             ///   randomly generated and placed as the first 16 bytes in the stream or
             ///   string. The key size(Length) shall be 128 bits.
-            /// • AESV3(ExtensionLevel 3) The application asks the security handler
+            /// ï¿½ AESV3(ExtensionLevel 3) The application asks the security handler
             ///   for the encryption key and implicitly decrypts data with
             ///   Algorithm 3.1a, using the AES-256 algorithm in Cipher Block
             ///   Chaining(CBC) with padding mode with a 16-byte block size and an
