@@ -28,8 +28,12 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using PdfSharpCore.Pdf.Advanced;
 using PdfSharpCore.Pdf.Internal;
 using PdfSharpCore.Pdf.IO;
@@ -778,7 +782,7 @@ namespace PdfSharpCore.Pdf
         /// it is imported to this document. In this case the returned page is not the same
         /// object as the specified one.
         /// </summary>
-        public PdfPage AddPage(PdfPage page, AnnotationCopyingType annotationCopying = AnnotationCopyingType.DoNotCopy)
+        public PdfPage AddPage(PdfPage page, AnnotationCopyingType annotationCopying = AnnotationCopyingType.ShallowCopy)
         {
             if (!CanModify)
                 throw new InvalidOperationException(PSSR.CannotModify);
@@ -800,11 +804,99 @@ namespace PdfSharpCore.Pdf
         /// it is imported to this document. In this case the returned page is not the same
         /// object as the specified one.
         /// </summary>
-        public PdfPage InsertPage(int index, PdfPage page, AnnotationCopyingType annotationCopying = AnnotationCopyingType.DoNotCopy)
+        public PdfPage InsertPage(int index, PdfPage page, AnnotationCopyingType annotationCopying = AnnotationCopyingType.ShallowCopy)
         {
             if (!CanModify)
                 throw new InvalidOperationException(PSSR.CannotModify);
             return Catalog.Pages.Insert(index, page, annotationCopying);
+        }
+
+        /// <summary>
+        /// Marks the acroform fields readonly 
+        /// </summary>
+        public void MakeAcroFormsReadOnly()
+        {
+            for (var i = 0; i < AcroForm?.Fields.Count(); i++)
+            {
+                AcroForm.Fields[i].ReadOnly = true;
+            }
+        }
+
+        public void ConsolidateImages()
+        {
+            var images = ImageInfo.FindAll(this);
+
+            var mapHashcodeToMd5 = new Dictionary<int, string>();
+            var mapMd5ToPdfItem = new Dictionary<string, PdfItem>();
+
+            // Calculate MD5 for each image XObject and build lookups for all images.
+            foreach (ImageInfo img in images)
+            {
+                mapHashcodeToMd5[img.XObject.GetHashCode()] = img.XObjectMD5;
+                mapMd5ToPdfItem[img.XObjectMD5] = img.Item.Value;
+            }
+
+            // Set the PdfItem for each image to the one chosen for the MD5.
+            foreach (ImageInfo img in images)
+            {
+                string md5 = mapHashcodeToMd5[img.XObject.GetHashCode()];
+                img.XObjects.Elements[img.Item.Key] = mapMd5ToPdfItem[md5];
+            }
+        }
+        
+        internal class ImageInfo
+        {
+            public PdfDictionary XObjects { get; }
+            public KeyValuePair<string, PdfItem> Item  { get; }
+            public PdfDictionary XObject { get; }
+            public string XObjectMD5 { get; }
+
+            private static readonly MD5 Hasher = MD5.Create();
+            
+            public ImageInfo(PdfDictionary xObjects, KeyValuePair<string, PdfItem> item, PdfDictionary xObject)
+            {
+                XObjects = xObjects;
+                Item = item;
+                XObject = xObject;
+                XObjectMD5 = ComputeMD5(xObject.Stream.Value);
+            }
+            
+            /// <summary>
+            /// Get info for each image in the document.
+            /// </summary>
+            internal static List<ImageInfo> FindAll(PdfDocument doc) =>
+                doc.Pages.Cast<PdfPage>()
+                    .Select(page => page.Elements.GetDictionary("/Resources"))
+                    .Select(resources => resources?.Elements?.GetDictionary("/XObject"))
+                    .Where(xObjects => xObjects?.Elements != null)
+                    .SelectMany(xObjects =>
+                        from item in xObjects.Elements
+                        let xObject = (item.Value as PdfReference)?.Value as PdfDictionary
+                        where xObject?.Elements?.GetString("/Subtype") == "/Image"
+                        select new ImageInfo(xObjects, item, xObject)
+                    )
+                    .ToList();
+            
+            /// <summary>
+            /// Compute and return the MD5 hash of the input data.
+            /// </summary>
+            internal static string ComputeMD5(byte[] input)
+            {
+                byte[] hashBytes;
+                lock (Hasher)
+                {
+                    hashBytes = Hasher.ComputeHash(input);
+                    Hasher.Initialize();
+                }
+                
+                var sb = new StringBuilder();
+                foreach (var x in hashBytes)
+                {
+                    sb.Append(x.ToString("x2"));
+                }
+        
+                return sb.ToString();
+            }
         }
 
         /// <summary>

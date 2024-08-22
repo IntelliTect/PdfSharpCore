@@ -181,7 +181,11 @@ namespace PdfSharpCore.Drawing
             if (_formState == FormState.NotATemplate || _formState == FormState.Finished)
                 return;
 
-            //Debug.Assert(_formState == FormState.Created || _formState == FormState.UnderConstruction);
+            if (!(_formState == FormState.Created || _formState == FormState.UnderConstruction))
+            {
+                throw new InvalidOperationException("Expected the form to be Created or UnderConstruction");
+            }
+
             _formState = FormState.Finished;
             Gfx.Dispose();
             Gfx = null;
@@ -190,7 +194,6 @@ namespace PdfSharpCore.Drawing
             {
                 //pdfForm.CreateStream(PdfEncoders.RawEncoding.GetBytes(PdfRenderer.GetContent()));
                 PdfRenderer.Close();
-                Debug.Assert(PdfRenderer == null);
 
                 if (_document.Options.CompressContentStreams)
                 {

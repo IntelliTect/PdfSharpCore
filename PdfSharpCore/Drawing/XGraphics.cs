@@ -49,7 +49,8 @@ namespace PdfSharpCore.Drawing  // #??? aufr�umen
         DrawingPdfContent,
         DrawingBitmap,
     }
-
+    
+    
     /// <summary>
     /// Represents a drawing surface for a fixed size page.
     /// </summary>
