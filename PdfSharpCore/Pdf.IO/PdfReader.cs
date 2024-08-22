@@ -499,6 +499,13 @@ namespace PdfSharpCore.Pdf.IO
                             // Is type xref to compressed object?
                             if (item.Type == 2)
                             {
+                                if (document._irefTable.ObjectTable.TryGetValue(new PdfObjectID(idx2), out var irefToRead) && irefToRead.Position > 0)
+                                {
+                                    // The object has been overridden by a trailer with a specific position.
+                                    // Don't read from compressed objects. Continue on later to "read all indirect objects"
+                                    continue;
+                                }
+
                                 PdfReference irefNew = parser.ReadCompressedObject(new PdfObjectID((int)item.Field2),
                                     (int)item.Field3);
                                 Debug.Assert(document._irefTable.Contains(iref.ObjectID));
